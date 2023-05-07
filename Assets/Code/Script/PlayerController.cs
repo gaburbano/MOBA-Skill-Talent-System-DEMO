@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class PlayerController : MonoBehaviour {
     public Skill[] skills;
     public Talent[] talents;
 
