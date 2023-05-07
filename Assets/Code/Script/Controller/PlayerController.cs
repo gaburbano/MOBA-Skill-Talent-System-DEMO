@@ -92,9 +92,9 @@ public class PlayerController : MonoBehaviour {
         Skill targetSkill = skills[skillIndex];
         foreach (TalentModifier modifier in talent.modifiers) {
             if (modifier.targetSkill == targetSkill) {
-                if (modifier.modificationType == "damage") {
+                if (modifier.modificationType == TalentModifierType.DAMAGE) {
                     targetSkill.damage += modifier.modificationValue;
-                } else if (modifier.modificationType == "manaCost") {
+                } else if (modifier.modificationType == TalentModifierType.MANA_COST) {
                     targetSkill.manaCost -= modifier.modificationValue;
                 }
                 if (modifier.vfx != null) {
