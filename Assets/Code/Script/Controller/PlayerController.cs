@@ -72,13 +72,13 @@ public class PlayerController : MonoBehaviour {
         // apply all skill effects to target(s)
         foreach (SkillEffect effect in skill.effects) {
             // apply effect
-            if (effect.type == "damage") {
+            if (effect.type == SkillEffectType.DAMAGE) {
                 // apply damage to target
                 // ...
-            } else if (effect.type == "heal") {
+            } else if (effect.type == SkillEffectType.HEAL) {
                 // apply healing to target
                 // ...
-            } else if (effect.type == "buff") {
+            } else if (effect.type == SkillEffectType.BUFF) {
                 // apply buff to target
                 // ...
             }
