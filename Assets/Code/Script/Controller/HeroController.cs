@@ -1,45 +1,40 @@
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
-    public Skill[] skills;
-    public Talent[] talents;
-
-    public float moveSpeed = 5.0f;
-    public float stopDistance = 0.1f;
-    public float attackRange = 2.0f;
-    public float attackCooldown = 1.0f;
+public class HeroController : MonoBehaviour {
+    public Hero hero;
     public Transform target;
 
-    private bool isMoving = false;
-    private bool isAttacking = false;
-    private float attackTimer = 0.0f;
+    private bool _isMoving = false;
+    private bool _isAttacking = false;
+    private float _attackTimer = 0.0f;
 
-    private Rigidbody2D rb;
-    private Vector2 movement;
-    private Vector2 movementTargetPosition;
+    private Rigidbody2D _rb;
+    private Vector2 _movement;
+    private Vector2 _movementTargetPosition;
 
     void Start() {
-        rb = GetComponent<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
+        hero = GetComponent<Hero>();
     }
 
     void Update() {
         if (Input.GetMouseButtonDown(1)) {
-            movementTargetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            _movementTargetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }
 
-        if ((Vector2)transform.position != movementTargetPosition) {
-            transform.position = Vector2.MoveTowards(transform.position, movementTargetPosition, moveSpeed * Time.deltaTime);
+        if ((Vector2)transform.position != _movementTargetPosition) {
+            transform.position = Vector2.MoveTowards(transform.position, _movementTargetPosition, hero.moveSpeed * Time.deltaTime);
         }
 
         if (target != null) {
             Vector3 direction = target.position - transform.position;
-            transform.Translate(direction.normalized * moveSpeed * Time.deltaTime, Space.World);
+            transform.Translate(direction.normalized * hero.moveSpeed * Time.deltaTime, Space.World);
 
-            if (direction.magnitude <= attackRange) {
-                if (!isAttacking && Time.time > attackTimer) {
-                    isMoving = false;
-                    isAttacking = true;
-                    attackTimer = Time.time + attackCooldown;
+            if (direction.magnitude <= hero.attackRange) {
+                if (!_isAttacking && Time.time > _attackTimer) {
+                    _isMoving = false;
+                    _isAttacking = true;
+                    _attackTimer = Time.time + hero.attackCooldown;
 
                     if (GetComponent<Animator>() != null) {
                         GetComponent<Animator>().SetTrigger("Attack");
@@ -47,31 +42,31 @@ public class PlayerController : MonoBehaviour {
                     target.GetComponent<Health>().TakeDamage(10);
                 }
             } else {
-                isMoving = true;
-                isAttacking = false;
+                _isMoving = true;
+                _isAttacking = false;
             }
         } else {
-            isMoving = false;
-            isAttacking = false;
+            _isMoving = false;
+            _isAttacking = false;
         }
 
         Animator animator = GetComponent<Animator>();
         if (animator != null) {
-            animator.SetBool("IsMoving", isMoving);
-            animator.SetBool("IsAttacking", isAttacking);
+            animator.SetBool("IsMoving", _isMoving);
+            animator.SetBool("IsAttacking", _isAttacking);
         }
     }
 
     void FixedUpdate() {
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+        _rb.MovePosition(_rb.position + _movement * hero.moveSpeed * Time.fixedDeltaTime);
 
-        if (Vector2.Distance(transform.position, movementTargetPosition) < stopDistance) {
-            rb.velocity = Vector2.zero;
+        if (Vector2.Distance(transform.position, _movementTargetPosition) < hero.stopDistance) {
+            _rb.velocity = Vector2.zero;
         }
     }
 
     void UseSkill(int skillIndex) {
-        Skill skill = skills[skillIndex];
+        Skill skill = hero.skills[skillIndex];
         foreach (SkillEffect effect in skill.effects) {
             if (effect.type == SkillEffectType.DAMAGE) {
                 // apply damage to target
@@ -88,8 +83,8 @@ public class PlayerController : MonoBehaviour {
     }
     
     void ApplyTalent(int talentIndex, int skillIndex) {
-        Talent talent = talents[talentIndex];
-        Skill targetSkill = skills[skillIndex];
+        Talent talent = hero.talents[talentIndex];
+        Skill targetSkill = hero.skills[skillIndex];
         foreach (TalentModifier modifier in talent.modifiers) {
             if (modifier.targetSkill == targetSkill) {
                 if (modifier.modificationType == TalentModifierType.DAMAGE) {

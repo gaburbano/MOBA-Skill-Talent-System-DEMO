@@ -22,7 +22,6 @@ public class Health : MonoBehaviour
 
     void Die()
     {
-        // Replace this code with your own death logic (e.g. play death animation, remove object from game, etc.)
         Debug.Log(gameObject.name + " has died.");
         Destroy(gameObject);
     }
