@@ -1,3 +1,4 @@
+[System.Serializable]
 public class TalentModifier {
     public Skill targetSkill;
     public TalentModifierType modificationType;

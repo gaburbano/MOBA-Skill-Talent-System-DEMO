@@ -83,7 +83,7 @@ public class HeroController : MonoBehaviour {
     }
     
     void ApplyTalent(int talentIndex, int skillIndex) {
-        Talent talent = hero.talents[talentIndex];
+        Talent talent = hero.skills[skillIndex].talents[talentIndex];
         Skill targetSkill = hero.skills[skillIndex];
         foreach (TalentModifier modifier in talent.modifiers) {
             if (modifier.targetSkill == targetSkill) {

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -11,8 +12,9 @@ public class Hero : MonoBehaviour
     public float attackRange = 2.0f;
     public float attackCooldown = 1.0f;
 
-    public Skill[] skills;
-    public Talent[] talents;
+    public List<Skill> skills = new List<Skill>();
+
+    public SkillData skillSO;
 
     void Awake() {
 	}

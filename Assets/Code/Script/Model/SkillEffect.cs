@@ -1,3 +1,4 @@
+[System.Serializable]
 public class SkillEffect {
     public SkillEffectType type;
     public float value;

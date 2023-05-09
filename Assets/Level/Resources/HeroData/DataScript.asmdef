@@ -1,9 +1,7 @@
 {
-    "name": "Script",
+    "name": "DataScript",
     "rootNamespace": "",
-    "references": [
-        "GUID:a5446d4387d920c43a3941678a7b458e"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
